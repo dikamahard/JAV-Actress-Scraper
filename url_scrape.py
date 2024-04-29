@@ -4,7 +4,7 @@ from datetime import timedelta
 #from requests.exceptions import Timeout
 from bs4 import BeautifulSoup
 
-fileName = 'error2.txt'
+
 
 def main():
     # Initialize Data
@@ -12,7 +12,8 @@ def main():
     startPage = 1
     lastPage = 20
     idolUrls = []
-    currentPage = 1
+    currentPage = 1511
+    FILENAME = 'error.txt'
     
 
     # Master Method (Scrap all then append)
@@ -20,7 +21,7 @@ def main():
     # Use this if you EXACTLY now the last page!!!
     """try :
         idolUrls = extract_url_data(url, startPage, lastPage)
-        append_urls_to_txt(idolUrls, fileName)
+        append_urls_to_txt(idolUrls, FILENAME)
     except LastPageException as e:
         print(idolUrls)
         print(e)
@@ -33,18 +34,15 @@ def main():
     try:
         while (True):
             idolUrls += extract_url_data(url, currentPage, currentPage)
-            print(idolUrls)
 
             if (currentPage % 10 == 0): # After 10 pages of scraping, append the data to txt
-                print(currentPage)
-                append_urls_to_txt(idolUrls, fileName)
+                print('>> Appending data from page {} to page {}'.format(currentPage-9, currentPage))
+                append_urls_to_txt(idolUrls, FILENAME)
                 idolUrls = []
             
             currentPage += 1
     except LastPageException as e: # append the rest of data because of last page
-        print ("Hasil exception")
-        print(idolUrls)
-        append_urls_to_txt(idolUrls, fileName)
+        append_urls_to_txt(idolUrls, FILENAME)
         print (e)
     finally:
         print('Appending the rest of data...')
@@ -71,7 +69,7 @@ def extract_url_data(url, startPage, lastPage):
         soup = BeautifulSoup(r.text, "html.parser")
         idolCards = soup.findAll('div', class_='idol-thumb')
 
-        if(not idolCards):  # Throw exception last page then append the rest of data before exception to txt
+        if(not idolCards):  # Throw exception last page
             raise LastPageException('Last Page Has Been Reached!!!')
 
 
