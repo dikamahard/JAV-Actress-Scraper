@@ -12,8 +12,8 @@ def main():
     startPage = 1
     lastPage = 20
     idolUrls = []
-    currentPage = 1511
-    FILENAME = 'error.txt'
+    currentPage = 1
+    FILENAME = 'urls.txt'
     
 
     # Master Method (Scrap all then append)
